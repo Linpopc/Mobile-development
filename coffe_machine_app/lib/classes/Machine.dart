@@ -18,9 +18,8 @@ class Machine{
   double get cash => _cash;
   set cash(double value) => _cash = value;
 
-  bool isAvailable(){
-    return _coffeeBeans >= 50 && _water >= 100;
-  }
+  bool isAvailable() => (_coffeeBeans >= 50 && _water >= 100);
+
 
   void _subtractResources(){
     _coffeeBeans -= 50;
@@ -40,10 +39,4 @@ class Machine{
 
     }
   }
-}
-
-void main(){
-  Machine coffeeMachine = Machine();
-  coffeeMachine.makingCoffee();
-  coffeeMachine.makingCoffee();
 }
