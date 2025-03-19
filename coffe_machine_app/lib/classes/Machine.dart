@@ -42,3 +42,8 @@ class Machine{
   }
 }
 
+void main(){
+  Machine coffeeMachine = Machine();
+  coffeeMachine.makingCoffee();
+  coffeeMachine.makingCoffee();
+}
