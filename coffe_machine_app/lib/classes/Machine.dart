@@ -68,44 +68,52 @@ class Latte implements ICoffee {
 
 }
 
-class Machine{
-  double _coffeeBeans;
-  double _milk;
-  double _water;
-  double _cash;
+class Machine {
 
-  Machine([this._coffeeBeans=0, this._water=0, this._milk=0, this._cash=0]);
+  Resources _resources;
 
-  double get coffeeBeans => _coffeeBeans;
-  set coffeeBeans(double value) => _coffeeBeans = value;
+  Machine(this._resources);
 
-  double get milk => _milk;
-  set milk(double value) => _milk = value;
+  void fillResources(double coffeeBeans, double milk, double water, double cash) {
 
-  double get water => _water;
-  set water(double value) => _water = value;
+    _resources.coffeeBeans += coffeeBeans;
+    _resources.milk += milk;
+    _resources.water += water;
+    _resources.cash += cash;
 
-  double get cash => _cash;
-  set cash(double value) => _cash = value;
+    print("Ресурсы пополнены! Текущие запасы: кофе - ${_resources.coffeeBeans}, молоко - ${_resources.milk}, вода - ${_resources.water}, деньги - ${_resources.cash}");
 
-  bool isAvailable() => (_coffeeBeans >= 50 && _water >= 100);
-
-
-  void _subtractResources(){
-    _coffeeBeans -= 50;
-    _water -= 100;
   }
 
-  void makingCoffee(){
-    if (isAvailable()) {
+  bool isAvailableResources(ICoffee coffee) {
 
-      _subtractResources();
-      print("Эспрессо приготовлен!");
+    return _resources.cash >= coffee.cash() &&
+    _resources.water >= coffee.water() &&
+    _resources.milk >= coffee.milk() &&
+    _resources.coffeeBeans >= coffee.coffeeBeans();
+
+  }
+
+  void _subtractResources(ICoffee coffee) {
+
+    _resources.coffeeBeans -= coffee.coffeeBeans();
+    _resources.milk -= coffee.milk();
+    _resources.water -= coffee.water();
+    _resources.cash -= coffee.cash();
+
+  }
+
+  void makingCoffeeByType(ICoffee coffee) {
+    if (isAvailableResources(coffee)) {
+
+      _subtractResources(coffee);
+
+      print("${coffee.runtimeType}  приготовлен!");
 
     }
     else{
 
-      print("Нехватка ресурсов для эспрессо.");
+      print("Нехватка ресурсов для ${coffee.runtimeType} .");
 
     }
   }
