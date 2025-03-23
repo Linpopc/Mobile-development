@@ -126,6 +126,14 @@ class Machine {
 
   }
 
+  Future<void> _mixCoffeeAndMilk() async {
+
+    print("Смешивание кофе и молока...");
+    await Future.delayed(Duration(seconds: 3));
+    print("Кофе и молоко смешаны!");
+
+  }
+
   bool _isAvailableResources(ICoffee coffee) {
 
     return _resources.cash >= coffee.cash() &&
