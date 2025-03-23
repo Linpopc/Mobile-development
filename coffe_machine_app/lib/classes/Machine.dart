@@ -1,11 +1,22 @@
 import './Enums.dart';
 
-abstract class ICoffee{
+abstract class ICoffee {
 
   double coffeeBeans();
   double milk();
   double water();
   double cash();
+
+}
+
+class Resources {
+
+  double coffeeBeans;
+  double milk;
+  double water;
+  double cash;
+
+  Resources({this.coffeeBeans = 0, this.milk = 0, this.water = 0, this.cash = 0});
 
 }
 
