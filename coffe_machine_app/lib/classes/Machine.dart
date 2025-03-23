@@ -20,6 +20,53 @@ class Resources {
 
 }
 
+class Espresso implements ICoffee {
+
+  @override
+  double coffeeBeans() => 50;
+
+  @override
+  double milk() => 0;
+
+  @override
+  double water() => 100;
+
+  @override
+  double cash() => 80;
+
+}
+
+class Cappuccino implements ICoffee {
+
+  @override
+  double coffeeBeans() => 40;
+
+  @override
+  double milk() => 100;
+
+  @override
+  double water() => 80;
+
+  @override
+  double cash() => 140;
+
+}
+
+class Latte implements ICoffee {
+
+  @override
+  double coffeeBeans() => 30;
+
+  @override
+  double milk() => 60;
+
+  @override
+  double water() => 150;
+
+  @override
+  double cash() => 120;
+
+}
 
 class Machine{
   double _coffeeBeans;
