@@ -68,6 +68,22 @@ class Latte implements ICoffee {
 
 }
 
+ICoffee createCoffee(coffeType type) {
+
+  switch(type) {
+    case coffeType.espresso:
+      return Espresso();
+
+    case coffeType.cappuccino:
+      return Cappuccino();
+
+    case coffeType.latte:
+      return Latte();
+
+  }
+
+}
+
 class Machine {
 
   Resources _resources;
@@ -85,7 +101,7 @@ class Machine {
 
   }
 
-  bool isAvailableResources(ICoffee coffee) {
+  bool _isAvailableResources(ICoffee coffee) {
 
     return _resources.cash >= coffee.cash() &&
     _resources.water >= coffee.water() &&
@@ -103,8 +119,11 @@ class Machine {
 
   }
 
-  void makingCoffeeByType(ICoffee coffee) {
-    if (isAvailableResources(coffee)) {
+  void makingCoffeeByType(coffeType type) {
+
+    ICoffee coffee = createCoffee(type);
+
+    if (_isAvailableResources(coffee)) {
 
       _subtractResources(coffee);
 
