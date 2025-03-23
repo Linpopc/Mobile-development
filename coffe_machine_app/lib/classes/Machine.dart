@@ -137,9 +137,9 @@ class Machine {
   bool _isAvailableResources(ICoffee coffee) {
 
     return _resources.cash >= coffee.cash() &&
-    _resources.water >= coffee.water() &&
-    _resources.milk >= coffee.milk() &&
-    _resources.coffeeBeans >= coffee.coffeeBeans();
+        _resources.water >= coffee.water() &&
+        _resources.milk >= coffee.milk() &&
+        _resources.coffeeBeans >= coffee.coffeeBeans();
 
   }
 
@@ -152,13 +152,17 @@ class Machine {
 
   }
 
-  void makingCoffeeByType(coffeType type) {
+  Future<void> makingCoffeeByType(coffeType type) async {
 
     ICoffee coffee = createCoffee(type);
 
     if (_isAvailableResources(coffee)) {
 
       _subtractResources(coffee);
+
+      await _heatWater();
+      await Future.wait([_brewCoffee(), coffee.milk() > 0 ? _frothMilk() : Future.value()]);
+      if (coffee.milk() > 0) await _mixCoffeeAndMilk();
 
       print("${coffee.runtimeType}  приготовлен!");
 
