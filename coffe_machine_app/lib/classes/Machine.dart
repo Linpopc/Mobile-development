@@ -1,3 +1,15 @@
+import './Enums.dart';
+
+abstract class ICoffee{
+
+  double coffeeBeans();
+  double milk();
+  double water();
+  double cash();
+
+}
+
+
 class Machine{
   double _coffeeBeans;
   double _milk;
