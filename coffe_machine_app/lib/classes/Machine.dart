@@ -110,6 +110,22 @@ class Machine {
 
   }
 
+  Future<void> _brewCoffee() async {
+
+    print("Заваривание кофе...");
+    await Future.delayed(Duration(seconds: 5));
+    print("Кофе заварен!");
+
+  }
+
+  Future<void> _frothMilk() async {
+
+    print("Взбивание молока...");
+    await Future.delayed(Duration(seconds: 5));
+    print("Молоко взбито!");
+
+  }
+
   bool _isAvailableResources(ICoffee coffee) {
 
     return _resources.cash >= coffee.cash() &&
