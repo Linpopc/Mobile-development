@@ -1,4 +1,5 @@
 import './Enums.dart';
+import 'dart:async';
 
 abstract class ICoffee {
 
@@ -98,6 +99,14 @@ class Machine {
     _resources.cash += cash;
 
     print("Ресурсы пополнены! Текущие запасы: кофе - ${_resources.coffeeBeans}, молоко - ${_resources.milk}, вода - ${_resources.water}, деньги - ${_resources.cash}");
+
+  }
+
+  Future<void> _heatWater() async {
+
+    print("Нагрев воды...");
+    await Future.delayed(Duration(seconds: 3));
+    print("Вода нагрета!");
 
   }
 
