@@ -8,11 +8,6 @@ void main() {
 
 
   coffeeMachine.makingCoffeeByType(coffeType.latte);
-  coffeeMachine.makingCoffeeByType(coffeType.cappuccino);
-  coffeeMachine.makingCoffeeByType(coffeType.espresso);
-
-
-  coffeeMachine.fillResources(100, 200, 300, 50);
 
 }
 
