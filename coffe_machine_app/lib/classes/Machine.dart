@@ -1,41 +1,138 @@
-class Machine{
-  double _coffeeBeans;
-  double _milk;
-  double _water;
-  double _cash;
+import './Enums.dart';
 
-  Machine([this._coffeeBeans=0, this._water=0, this._milk=0, this._cash=0]);
+abstract class ICoffee {
 
-  double get coffeeBeans => _coffeeBeans;
-  set coffeeBeans(double value) => _coffeeBeans = value;
+  double coffeeBeans();
+  double milk();
+  double water();
+  double cash();
 
-  double get milk => _milk;
-  set milk(double value) => _milk = value;
+}
 
-  double get water => _water;
-  set water(double value) => _water = value;
+class Resources {
 
-  double get cash => _cash;
-  set cash(double value) => _cash = value;
+  double coffeeBeans;
+  double milk;
+  double water;
+  double cash;
 
-  bool isAvailable() => (_coffeeBeans >= 50 && _water >= 100);
+  Resources({this.coffeeBeans = 0, this.milk = 0, this.water = 0, this.cash = 0});
 
+}
 
-  void _subtractResources(){
-    _coffeeBeans -= 50;
-    _water -= 100;
+class Espresso implements ICoffee {
+
+  @override
+  double coffeeBeans() => 50;
+
+  @override
+  double milk() => 0;
+
+  @override
+  double water() => 100;
+
+  @override
+  double cash() => 80;
+
+}
+
+class Cappuccino implements ICoffee {
+
+  @override
+  double coffeeBeans() => 40;
+
+  @override
+  double milk() => 100;
+
+  @override
+  double water() => 80;
+
+  @override
+  double cash() => 140;
+
+}
+
+class Latte implements ICoffee {
+
+  @override
+  double coffeeBeans() => 30;
+
+  @override
+  double milk() => 60;
+
+  @override
+  double water() => 150;
+
+  @override
+  double cash() => 120;
+
+}
+
+ICoffee createCoffee(coffeType type) {
+
+  switch(type) {
+    case coffeType.espresso:
+      return Espresso();
+
+    case coffeType.cappuccino:
+      return Cappuccino();
+
+    case coffeType.latte:
+      return Latte();
+
   }
 
-  void makingCoffee(){
-    if (isAvailable()) {
+}
 
-      _subtractResources();
-      print("Эспрессо приготовлен!");
+class Machine {
+
+  Resources _resources;
+
+  Machine(this._resources);
+
+  void fillResources(double coffeeBeans, double milk, double water, double cash) {
+
+    _resources.coffeeBeans += coffeeBeans;
+    _resources.milk += milk;
+    _resources.water += water;
+    _resources.cash += cash;
+
+    print("Ресурсы пополнены! Текущие запасы: кофе - ${_resources.coffeeBeans}, молоко - ${_resources.milk}, вода - ${_resources.water}, деньги - ${_resources.cash}");
+
+  }
+
+  bool _isAvailableResources(ICoffee coffee) {
+
+    return _resources.cash >= coffee.cash() &&
+    _resources.water >= coffee.water() &&
+    _resources.milk >= coffee.milk() &&
+    _resources.coffeeBeans >= coffee.coffeeBeans();
+
+  }
+
+  void _subtractResources(ICoffee coffee) {
+
+    _resources.coffeeBeans -= coffee.coffeeBeans();
+    _resources.milk -= coffee.milk();
+    _resources.water -= coffee.water();
+    _resources.cash -= coffee.cash();
+
+  }
+
+  void makingCoffeeByType(coffeType type) {
+
+    ICoffee coffee = createCoffee(type);
+
+    if (_isAvailableResources(coffee)) {
+
+      _subtractResources(coffee);
+
+      print("${coffee.runtimeType}  приготовлен!");
 
     }
     else{
 
-      print("Нехватка ресурсов для эспрессо.");
+      print("Нехватка ресурсов для ${coffee.runtimeType} .");
 
     }
   }
