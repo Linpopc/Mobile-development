@@ -1,4 +1,5 @@
 import './Enums.dart';
+import 'dart:async';
 
 abstract class ICoffee {
 
@@ -101,12 +102,44 @@ class Machine {
 
   }
 
+  Future<void> _heatWater() async {
+
+    print("Нагрев воды...");
+    await Future.delayed(Duration(seconds: 3));
+    print("Вода нагрета!");
+
+  }
+
+  Future<void> _brewCoffee() async {
+
+    print("Заваривание кофе...");
+    await Future.delayed(Duration(seconds: 5));
+    print("Кофе заварен!");
+
+  }
+
+  Future<void> _frothMilk() async {
+
+    print("Взбивание молока...");
+    await Future.delayed(Duration(seconds: 5));
+    print("Молоко взбито!");
+
+  }
+
+  Future<void> _mixCoffeeAndMilk() async {
+
+    print("Смешивание кофе и молока...");
+    await Future.delayed(Duration(seconds: 3));
+    print("Кофе и молоко смешаны!");
+
+  }
+
   bool _isAvailableResources(ICoffee coffee) {
 
     return _resources.cash >= coffee.cash() &&
-    _resources.water >= coffee.water() &&
-    _resources.milk >= coffee.milk() &&
-    _resources.coffeeBeans >= coffee.coffeeBeans();
+        _resources.water >= coffee.water() &&
+        _resources.milk >= coffee.milk() &&
+        _resources.coffeeBeans >= coffee.coffeeBeans();
 
   }
 
@@ -119,13 +152,17 @@ class Machine {
 
   }
 
-  void makingCoffeeByType(coffeType type) {
+  Future<void> makingCoffeeByType(coffeType type) async {
 
     ICoffee coffee = createCoffee(type);
 
     if (_isAvailableResources(coffee)) {
 
       _subtractResources(coffee);
+
+      await _heatWater();
+      await Future.wait([_brewCoffee(), coffee.milk() > 0 ? _frothMilk() : Future.value()]);
+      if (coffee.milk() > 0) await _mixCoffeeAndMilk();
 
       print("${coffee.runtimeType}  приготовлен!");
 
